@@ -41,7 +41,6 @@ public class BitmapTypeRequest<ModelType> extends BitmapRequestBuilder<ModelType
                 Bitmap.class);
         ImageVideoModelLoader<A> modelLoader = new ImageVideoModelLoader<A>(streamModelLoader,
                 fileDescriptorModelLoader);
-
         return new FixedLoadProvider<A, ImageVideoWrapper, Bitmap, R>(modelLoader, transcoder, loadProvider);
     }
 

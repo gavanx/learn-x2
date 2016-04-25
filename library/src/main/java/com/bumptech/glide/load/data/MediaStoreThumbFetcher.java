@@ -177,7 +177,6 @@ public class MediaStoreThumbFetcher implements DataFetcher<InputStream> {
         public InputStream open(Context context, Uri uri) throws FileNotFoundException {
             Uri thumbnailUri = null;
             InputStream inputStream = null;
-
             final Cursor cursor = query.queryPath(context, uri);
             try {
                 if (cursor != null && cursor.moveToFirst()) {

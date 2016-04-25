@@ -1,9 +1,5 @@
 package com.bumptech.glide;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.view.animation.Animation;
-
 import com.bumptech.glide.load.Encoder;
 import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.ResourceDecoder;
@@ -19,25 +15,25 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.DrawableCrossFadeFactory;
 import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.view.animation.Animation;
+
 import java.io.File;
 import java.io.InputStream;
 
 /**
  * A class for creating a request to load an animated gif.
  *
- * <p>
- *     Warning - It is <em>not</em> safe to use this builder after calling <code>into()</code>, it may be pooled and
- *     reused.
- * </p>
+ * <p> Warning - It is <em>not</em> safe to use this builder after calling <code>into()</code>, it may be pooled and reused. </p>
  *
  * @param <ModelType> The type of model that will be loaded into the target.
  */
-public class GifRequestBuilder<ModelType>
-        extends GenericRequestBuilder<ModelType, InputStream, GifDrawable, GifDrawable>
-        implements BitmapOptions, DrawableOptions {
+public class GifRequestBuilder<ModelType> extends GenericRequestBuilder<ModelType, InputStream, GifDrawable, GifDrawable> implements BitmapOptions,
+    DrawableOptions {
 
-    GifRequestBuilder(LoadProvider<ModelType, InputStream, GifDrawable, GifDrawable> loadProvider,
-            Class<GifDrawable> transcodeClass, GenericRequestBuilder<ModelType, ?, ?, ?> other) {
+    GifRequestBuilder(LoadProvider<ModelType, InputStream, GifDrawable, GifDrawable> loadProvider, Class<GifDrawable> transcodeClass,
+                      GenericRequestBuilder<ModelType, ?, ?, ?> other) {
         super(loadProvider, transcodeClass, other);
     }
 
@@ -51,27 +47,19 @@ public class GifRequestBuilder<ModelType>
     }
 
     /**
-     * Loads and displays the GIF retrieved by the given thumbnail request if it finishes before this
-     * request. Best used for loading thumbnail GIFs that are smaller and will be loaded more quickly
-     * than the fullsize GIF. There are no guarantees about the order in which the requests will actually
-     * finish. However, if the thumb request completes after the full request, the thumb GIF will never
-     * replace the full image.
-     *
-     * @see #thumbnail(float)
-     *
-     * <p>
-     *     Note - Any options on the main request will not be passed on to the thumbnail request. For example, if
-     *     you want an animation to occur when either the full GIF loads or the thumbnail loads,
-     *     you need to call {@link #animate(int)} on both the thumb and the full request. For a simpler thumbnail
-     *     option where these options are applied to the humbnail as well, see {@link #thumbnail(float)}.
-     * </p>
-     *
-     * <p>
-     *     Only the thumbnail call on the main request will be obeyed, recursive calls to this method are ignored.
-     * </p>
+     * Loads and displays the GIF retrieved by the given thumbnail request if it finishes before this request. Best used for loading thumbnail GIFs
+     * that are smaller and will be loaded more quickly than the fullsize GIF. There are no guarantees about the order in which the requests will
+     * actually finish. However, if the thumb request completes after the full request, the thumb GIF will never replace the full image.
      *
      * @param thumbnailRequest The request to use to load the thumbnail.
      * @return This builder object.
+     * @see #thumbnail(float)
+     *
+     * <p> Note - Any options on the main request will not be passed on to the thumbnail request. For example, if you want an animation to occur when
+     * either the full GIF loads or the thumbnail loads, you need to call {@link #animate(int)} on both the thumb and the full request. For a simpler
+     * thumbnail option where these options are applied to the humbnail as well, see {@link #thumbnail(float)}. </p>
+     *
+     * <p> Only the thumbnail call on the main request will be obeyed, recursive calls to this method are ignored. </p>
      */
     public GifRequestBuilder<ModelType> thumbnail(GifRequestBuilder<?> thumbnailRequest) {
         super.thumbnail(thumbnailRequest);
@@ -100,8 +88,7 @@ public class GifRequestBuilder<ModelType>
      * {@inheritDoc}
      */
     @Override
-    public GifRequestBuilder<ModelType> decoder(
-            ResourceDecoder<InputStream, GifDrawable> decoder) {
+    public GifRequestBuilder<ModelType> decoder(ResourceDecoder<InputStream, GifDrawable> decoder) {
         super.decoder(decoder);
         return this;
     }
@@ -110,8 +97,7 @@ public class GifRequestBuilder<ModelType>
      * {@inheritDoc}
      */
     @Override
-    public GifRequestBuilder<ModelType> cacheDecoder(
-            ResourceDecoder<File, GifDrawable> cacheDecoder) {
+    public GifRequestBuilder<ModelType> cacheDecoder(ResourceDecoder<File, GifDrawable> cacheDecoder) {
         super.cacheDecoder(cacheDecoder);
         return this;
     }
@@ -120,8 +106,7 @@ public class GifRequestBuilder<ModelType>
      * {@inheritDoc}
      */
     @Override
-    public GifRequestBuilder<ModelType> encoder(
-            ResourceEncoder<GifDrawable> encoder) {
+    public GifRequestBuilder<ModelType> encoder(ResourceEncoder<GifDrawable> encoder) {
         super.encoder(encoder);
         return this;
     }
@@ -138,12 +123,11 @@ public class GifRequestBuilder<ModelType>
     /**
      * Transforms each frame of the GIF using {@link com.bumptech.glide.load.resource.bitmap.CenterCrop}.
      *
+     * @return This request builder.
      * @see #fitCenter()
      * @see #transformFrame(com.bumptech.glide.load.resource.bitmap.BitmapTransformation...)
      * @see #transformFrame(com.bumptech.glide.load.Transformation[])
      * @see #transform(com.bumptech.glide.load.Transformation[])
-     *
-     * @return This request builder.
      */
     public GifRequestBuilder<ModelType> centerCrop() {
         return transformFrame(glide.getBitmapCenterCrop());
@@ -152,12 +136,11 @@ public class GifRequestBuilder<ModelType>
     /**
      * Transforms each frame of the GIF using {@link com.bumptech.glide.load.resource.bitmap.FitCenter}.
      *
+     * @return This request builder..
      * @see #centerCrop()
      * @see #transformFrame(com.bumptech.glide.load.resource.bitmap.BitmapTransformation...)
      * @see #transformFrame(com.bumptech.glide.load.Transformation[])
      * @see #transform(com.bumptech.glide.load.Transformation[])
-     *
-     * @return This request builder..
      */
     public GifRequestBuilder<ModelType> fitCenter() {
         return transformFrame(glide.getBitmapFitCenter());
@@ -166,13 +149,12 @@ public class GifRequestBuilder<ModelType>
     /**
      * Transforms each frame of the GIF using the given transformations.
      *
+     * @param bitmapTransformations The transformations to apply in order to each frame.
+     * @return This request builder.
      * @see #centerCrop()
      * @see #fitCenter()
      * @see #transformFrame(com.bumptech.glide.load.Transformation[])
      * @see #transform(com.bumptech.glide.load.Transformation[])
-     *
-     * @param bitmapTransformations The transformations to apply in order to each frame.
-     * @return This request builder.
      */
     public GifRequestBuilder<ModelType> transformFrame(BitmapTransformation... bitmapTransformations) {
         return transform(toGifTransformations(bitmapTransformations));
@@ -181,13 +163,12 @@ public class GifRequestBuilder<ModelType>
     /**
      * Transforms each frame of the GIF using the given transformations.
      *
+     * @param bitmapTransformations The transformations to apply in order to each frame.
+     * @return This request builder.
      * @see #fitCenter()
      * @see #centerCrop()
      * @see #transformFrame(com.bumptech.glide.load.resource.bitmap.BitmapTransformation...)
      * @see #transform(com.bumptech.glide.load.Transformation[])
-     *
-     * @param bitmapTransformations The transformations to apply in order to each frame.
-     * @return This request builder.
      */
     public GifRequestBuilder<ModelType> transformFrame(Transformation<Bitmap>... bitmapTransformations) {
         return transform(toGifTransformations(bitmapTransformations));
@@ -208,7 +189,6 @@ public class GifRequestBuilder<ModelType>
      * @see #centerCrop()
      * @see #transformFrame(com.bumptech.glide.load.resource.bitmap.BitmapTransformation...)
      * @see #transformFrame(com.bumptech.glide.load.Transformation[])
-     *
      */
     @Override
     public GifRequestBuilder<ModelType> transform(Transformation<GifDrawable>... transformations) {
@@ -258,8 +238,7 @@ public class GifRequestBuilder<ModelType>
      */
     @Override
     public GifRequestBuilder<ModelType> crossFade(int animationId, int duration) {
-        super.animate(new DrawableCrossFadeFactory<GifDrawable>(context, animationId,
-                duration));
+        super.animate(new DrawableCrossFadeFactory<GifDrawable>(context, animationId, duration));
         return this;
     }
 
@@ -353,8 +332,7 @@ public class GifRequestBuilder<ModelType>
      * {@inheritDoc}
      */
     @Override
-    public GifRequestBuilder<ModelType> listener(
-            RequestListener<? super ModelType, GifDrawable> requestListener) {
+    public GifRequestBuilder<ModelType> listener(RequestListener<? super ModelType, GifDrawable> requestListener) {
         super.listener(requestListener);
         return this;
     }
