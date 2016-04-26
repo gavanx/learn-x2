@@ -95,13 +95,11 @@ public class FlickrSearchActivity extends ActionBarActivity {
         backgroundThread = new HandlerThread("BackgroundThumbnailHandlerThread");
         backgroundThread.start();
         backgroundHandler = new Handler(backgroundThread.getLooper());
-
         setContentView(R.layout.flickr_search_activity);
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
         searching = findViewById(R.id.searching);
         searchLoading = findViewById(R.id.search_loading);
         searchTerm = (TextView) findViewById(R.id.search_term);
-
         searchText = (EditText) findViewById(R.id.search_text);
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -113,7 +111,6 @@ public class FlickrSearchActivity extends ActionBarActivity {
                 return false;
             }
         });
-
         final Button search = (Button) findViewById(R.id.search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +118,6 @@ public class FlickrSearchActivity extends ActionBarActivity {
                 executeSearch();
             }
         });
-
         final ViewPager pager = (ViewPager) findViewById(R.id.view_pager);
         pager.setPageMargin(50);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -138,18 +134,13 @@ public class FlickrSearchActivity extends ActionBarActivity {
             public void onPageScrollStateChanged(int i) {
             }
         });
-
-
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
         for (Page page : Page.values()) {
             final int textId = PAGE_TO_TITLE.get(page);
             actionBar.addTab(actionBar.newTab().setText(textId).setTabListener(new TabListener(pager)));
         }
-
         pager.setAdapter(new FlickrPagerAdapter(getSupportFragmentManager()));
-
         Api.get(this).registerSearchListener(searchListener);
         if (savedInstanceState != null) {
             String savedSearchString = savedInstanceState.getString(STATE_SEARCH_STRING);
@@ -157,13 +148,11 @@ public class FlickrSearchActivity extends ActionBarActivity {
                 executeSearch(savedSearchString);
             }
         }
-
         final Resources res = getResources();
         int smallGridSize = res.getDimensionPixelSize(R.dimen.small_photo_side);
         int mediumGridSize = res.getDimensionPixelSize(R.dimen.medium_photo_side);
         int listHeightSize = res.getDimensionPixelSize(R.dimen.flickr_list_item_height);
         int screenWidth = getScreenWidth();
-
         // Weight values determined experimentally by measuring the number of incurred GCs while scrolling through
         // the various photo grids/lists.
         Glide.get(this).preFillBitmapPool(new PreFillType.Builder(smallGridSize).setWeight(1), new PreFillType.Builder(mediumGridSize).setWeight(1)
@@ -215,15 +204,12 @@ public class FlickrSearchActivity extends ActionBarActivity {
 
     private void executeSearch(String searchString) {
         currentSearchString = searchString;
-
         if (TextUtils.isEmpty(searchString)) {
             return;
         }
-
         searching.setVisibility(View.VISIBLE);
         searchLoading.setVisibility(View.VISIBLE);
         searchTerm.setText(getString(R.string.searching_for, currentSearchString));
-
         Api.get(this).search(currentSearchString);
     }
 
@@ -254,23 +240,18 @@ public class FlickrSearchActivity extends ActionBarActivity {
             if (!TextUtils.equals(currentSearchString, searchString)) {
                 return;
             }
-
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "Search completed, got " + photos.size() + " results");
             }
             searching.setVisibility(View.INVISIBLE);
-
             for (PhotoViewer viewer : photoViewers) {
                 viewer.onPhotosUpdated(photos);
             }
-
             if (backgroundThumbnailFetcher != null) {
                 backgroundThumbnailFetcher.cancel();
             }
-
             backgroundThumbnailFetcher = new BackgroundThumbnailFetcher(FlickrSearchActivity.this, photos);
             backgroundHandler.post(backgroundThumbnailFetcher);
-
             currentPhotos = photos;
         }
 
@@ -279,7 +260,6 @@ public class FlickrSearchActivity extends ActionBarActivity {
             if (!TextUtils.equals(currentSearchString, searchString)) {
                 return;
             }
-
             if (Log.isLoggable(TAG, Log.ERROR)) {
                 Log.e(TAG, "Search failed", e);
             }
@@ -290,7 +270,6 @@ public class FlickrSearchActivity extends ActionBarActivity {
     }
 
     private class FlickrPagerAdapter extends FragmentPagerAdapter {
-
         private int mLastPosition = -1;
         private Fragment mLastFragment;
 
@@ -365,9 +344,7 @@ public class FlickrSearchActivity extends ActionBarActivity {
                 if (isCancelled) {
                     return;
                 }
-
                 FutureTarget<File> futureTarget = Glide.with(context).load(photo).downloadOnly(Api.SQUARE_THUMB_SIZE, Api.SQUARE_THUMB_SIZE);
-
                 try {
                     futureTarget.get();
                 } catch (InterruptedException e) {
@@ -381,7 +358,6 @@ public class FlickrSearchActivity extends ActionBarActivity {
                 }
                 Glide.clear(futureTarget);
             }
-
         }
     }
 }

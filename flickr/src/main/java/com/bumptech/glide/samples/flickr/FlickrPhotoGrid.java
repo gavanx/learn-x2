@@ -57,34 +57,25 @@ public class FlickrPhotoGrid extends Fragment implements PhotoViewer {
         Bundle args = getArguments();
         photoSize = args.getInt(IMAGE_SIZE_KEY);
         thumbnail = args.getBoolean(THUMBNAIL_KEY);
-
         fullRequest = Glide.with(this).from(Photo.class).centerCrop().crossFade(R.anim.fade_in, 150);
-
         thumbnailRequest = Glide.with(this).from(Photo.class).diskCacheStrategy(DiskCacheStrategy.SOURCE).crossFade(R.anim.fade_in, 150).override
             (Api.SQUARE_THUMB_SIZE, Api.SQUARE_THUMB_SIZE);
-
         preloadRequest = thumbnail ? thumbnailRequest.clone().priority(Priority.HIGH) : fullRequest;
-
         final View result = inflater.inflate(R.layout.flickr_photo_grid, container, false);
-
         grid = (GridView) result.findViewById(R.id.images);
         grid.setColumnWidth(photoSize);
         adapter = new PhotoAdapter();
         grid.setAdapter(adapter);
-
         final FixedPreloadSizeProvider<Photo> preloadSizeProvider = new FixedPreloadSizeProvider<Photo>(photoSize, photoSize);
         final ListPreloader<Photo> preloader = new ListPreloader<Photo>(adapter, preloadSizeProvider, args.getInt(PRELOAD_KEY));
         grid.setOnScrollListener(preloader);
-
         if (currentPhotos != null) {
             adapter.setPhotos(currentPhotos);
         }
-
         if (savedInstanceState != null) {
             int index = savedInstanceState.getInt(STATE_POSITION_INDEX);
             grid.setSelection(index);
         }
-
         return result;
     }
 
@@ -145,9 +136,7 @@ public class FlickrPhotoGrid extends Fragment implements PhotoViewer {
             } else {
                 imageView = (ImageView) view;
             }
-
             fullRequest.load(current).thumbnail(thumbnail ? thumbnailRequest.load(current) : null).into(imageView);
-
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -155,7 +144,6 @@ public class FlickrPhotoGrid extends Fragment implements PhotoViewer {
                     startActivity(intent);
                 }
             });
-
             return imageView;
         }
 

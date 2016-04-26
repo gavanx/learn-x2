@@ -58,7 +58,6 @@ public class Api {
 
     private static String getSizeKey(int width, int height) {
         final int largestEdge = Math.max(width, height);
-
         String result = EDGE_TO_SIZE_KEY.get(SORTED_SIZE_KEYS.get(SORTED_SIZE_KEYS.size() - 1));
         for (int edge : SORTED_SIZE_KEYS) {
             if (largestEdge <= edge) {
@@ -140,7 +139,6 @@ public class Api {
             }
             return;
         }
-
         StringRequest request = new StringRequest(Request.Method.GET, getSearchUrl(text), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -182,10 +180,8 @@ public class Api {
         private final List<Photo> results;
 
         public SearchResult(String searchString, List<Photo> results) {
-
             this.searchString = searchString;
             this.results = results;
         }
-
     }
 }

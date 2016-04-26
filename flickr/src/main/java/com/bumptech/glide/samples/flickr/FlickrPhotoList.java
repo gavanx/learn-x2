@@ -57,26 +57,20 @@ public class FlickrPhotoList extends Fragment implements PhotoViewer {
         list = (ListView) result.findViewById(R.id.flickr_photo_list);
         adapter = new FlickrPhotoListAdapter();
         list.setAdapter(adapter);
-
         preloadSizeProvider = new ViewPreloadSizeProvider<Photo>();
         ListPreloader<Photo> preloader = new ListPreloader<Photo>(adapter, preloadSizeProvider, PRELOAD_AHEAD_ITEMS);
         list.setOnScrollListener(preloader);
-
         if (currentPhotos != null) {
             adapter.setPhotos(currentPhotos);
         }
-
         fullRequest = Glide.with(FlickrPhotoList.this).from(Photo.class).placeholder(new ColorDrawable(Color.GRAY)).centerCrop();
-
         thumbRequest = Glide.with(FlickrPhotoList.this).from(Photo.class).diskCacheStrategy(DiskCacheStrategy.SOURCE).override(Api
             .SQUARE_THUMB_SIZE, Api.SQUARE_THUMB_SIZE);
-
         if (savedInstanceState != null) {
             int index = savedInstanceState.getInt(STATE_POSITION_INDEX);
             int offset = savedInstanceState.getInt(STATE_POSITION_OFFSET);
             list.setSelectionFromTop(index, offset);
         }
-
         return result;
     }
 
@@ -144,9 +138,7 @@ public class FlickrPhotoList extends Fragment implements PhotoViewer {
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
-
             fullRequest.thumbnail(thumbRequest.load(current)).load(current).into(viewHolder.imageView);
-
             viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -154,7 +146,6 @@ public class FlickrPhotoList extends Fragment implements PhotoViewer {
                     startActivity(intent);
                 }
             });
-
             viewHolder.titleText.setText(current.getTitle());
             return view;
         }
