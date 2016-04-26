@@ -18,7 +18,6 @@ import com.bumptech.glide.request.target.Target;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class SvgSoftwareLayerSetter<T> implements RequestListener<T, PictureDrawable> {
-
     @Override
     public boolean onException(Exception e, T model, Target<PictureDrawable> target, boolean isFirstResource) {
         ImageView view = ((ImageViewTarget<?>) target).getView();

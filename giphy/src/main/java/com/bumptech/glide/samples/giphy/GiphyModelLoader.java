@@ -15,12 +15,10 @@ import java.io.InputStream;
  * can be decoded into an {@link android.graphics.drawable.Drawable}.
  */
 public class GiphyModelLoader extends BaseGlideUrlLoader<Api.GifResult> {
-
     /**
      * The default factory for {@link com.bumptech.glide.samples.giphy.GiphyModelLoader}s.
      */
     public static class Factory implements ModelLoaderFactory<Api.GifResult, InputStream> {
-
         @Override
         public ModelLoader<Api.GifResult, InputStream> build(Context context, GenericLoaderFactory factories) {
             return new GiphyModelLoader(context);

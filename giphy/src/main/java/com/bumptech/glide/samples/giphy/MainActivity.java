@@ -37,12 +37,9 @@ public class MainActivity extends Activity implements Api.Monitor {
         setContentView(R.layout.activity_main);
         ImageView giphyLogoView = (ImageView) findViewById(R.id.giphy_logo_view);
         Glide.with(this).load(R.raw.large_giphy_logo).fitCenter().into(giphyLogoView);
-
         ListView gifList = (ListView) findViewById(R.id.gif_list);
-
         DrawableRequestBuilder<Api.GifResult> gifItemRequest = Glide.with(this).from(Api.GifResult.class).diskCacheStrategy(DiskCacheStrategy
             .SOURCE).fitCenter();
-
         ViewPreloadSizeProvider<Api.GifResult> preloadSizeProvider = new ViewPreloadSizeProvider<Api.GifResult>();
         adapter = new GifAdapter(this, gifItemRequest, preloadSizeProvider);
         gifList.setAdapter(adapter);
@@ -115,7 +112,6 @@ public class MainActivity extends Activity implements Api.Monitor {
             if (convertView == null) {
                 convertView = activity.getLayoutInflater().inflate(R.layout.gif_list_item, parent, false);
             }
-
             final Api.GifResult result = results[position];
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "load result: " + result);
@@ -127,16 +123,12 @@ public class MainActivity extends Activity implements Api.Monitor {
                     ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("giphy_url", result.images.fixed_height_downsampled.url);
                     clipboard.setPrimaryClip(clip);
-
                     Intent fullscreenIntent = FullscreenActivity.getIntent(activity, result);
                     activity.startActivity(fullscreenIntent);
                 }
             });
-
             requestBuilder.load(result).into(gifView);
-
             preloadSizeProvider.setView(gifView);
-
             return convertView;
         }
 

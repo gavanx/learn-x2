@@ -34,10 +34,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         imageViewRes = (ImageView) findViewById(R.id.svg_image_view1);
         imageViewNet = (ImageView) findViewById(R.id.svg_image_view2);
-
         requestBuilder = Glide.with(this)
                 .using(Glide.buildStreamModelLoader(Uri.class, this), InputStream.class)
                 .from(Uri.class)

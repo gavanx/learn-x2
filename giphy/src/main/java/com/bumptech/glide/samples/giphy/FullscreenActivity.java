@@ -36,19 +36,15 @@ public class FullscreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fullscreen_activity);
-
         String resultJson = getIntent().getStringExtra(EXTRA_RESULT_JSON);
         final Api.GifResult result = new Gson().fromJson(resultJson, Api.GifResult.class);
-
         ImageView gifView = (ImageView) findViewById(R.id.fullscreen_gif);
-
         gifView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("giphy_url", result.images.original.url);
                 clipboard.setPrimaryClip(clip);
-
                 if (gifDrawable != null) {
                     if (gifDrawable.isRunning()) {
                         gifDrawable.stop();
@@ -58,18 +54,17 @@ public class FullscreenActivity extends Activity {
                 }
             }
         });
-
-        Glide.with(this).load(result.images.original.url).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(Glide.with(this).load(result)
-            .asBitmap().transcode(new BitmapToGlideDrawableTranscoder(this), GlideDrawable.class).diskCacheStrategy(DiskCacheStrategy.SOURCE))
-            .listener(new RequestListener<Object, GlideDrawable>() {
+        Glide.with(this).load(result.images.original.url).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(Glide.with(this).load
+                (result).asBitmap().transcode(new BitmapToGlideDrawableTranscoder(this), GlideDrawable.class).diskCacheStrategy
+                (DiskCacheStrategy.SOURCE)).listener(new RequestListener<Object, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, Object model, Target<GlideDrawable> target, boolean isFirstResource) {
                 return false;
             }
 
             @Override
-            public boolean onResourceReady(GlideDrawable resource, Object model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean
-                isFirstResource) {
+            public boolean onResourceReady(GlideDrawable resource, Object model, Target<GlideDrawable> target, boolean isFromMemoryCache,
+                                           boolean isFirstResource) {
                 if (resource instanceof GifDrawable) {
                     gifDrawable = (GifDrawable) resource;
                 } else {
