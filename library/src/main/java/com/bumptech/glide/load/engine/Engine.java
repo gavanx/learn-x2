@@ -70,32 +70,26 @@ public class Engine implements EngineJobListener,
             ResourceRecycler resourceRecycler) {
         this.cache = cache;
         this.diskCacheProvider = new LazyDiskCacheProvider(diskCacheFactory);
-
         if (activeResources == null) {
             activeResources = new HashMap<Key, WeakReference<EngineResource<?>>>();
         }
         this.activeResources = activeResources;
-
         if (keyFactory == null) {
             keyFactory = new EngineKeyFactory();
         }
         this.keyFactory = keyFactory;
-
         if (jobs == null) {
             jobs = new HashMap<Key, EngineJob>();
         }
         this.jobs = jobs;
-
         if (engineJobFactory == null) {
             engineJobFactory = new EngineJobFactory(diskCacheService, sourceService, this);
         }
         this.engineJobFactory = engineJobFactory;
-
         if (resourceRecycler == null) {
             resourceRecycler = new ResourceRecycler();
         }
         this.resourceRecycler = resourceRecycler;
-
         cache.setResourceRemovedListener(this);
     }
 
@@ -144,12 +138,10 @@ public class Engine implements EngineJobListener,
             Priority priority, boolean isMemoryCacheable, DiskCacheStrategy diskCacheStrategy, ResourceCallback cb) {
         Util.assertMainThread();
         long startTime = LogTime.getLogTime();
-
         final String id = fetcher.getId();
         EngineKey key = keyFactory.buildKey(id, signature, width, height, loadProvider.getCacheDecoder(),
                 loadProvider.getSourceDecoder(), transformation, loadProvider.getEncoder(),
                 transcoder, loadProvider.getSourceEncoder());
-
         EngineResource<?> cached = loadFromCache(key, isMemoryCacheable);
         if (cached != null) {
             cb.onResourceReady(cached);
@@ -158,7 +150,6 @@ public class Engine implements EngineJobListener,
             }
             return null;
         }
-
         EngineResource<?> active = loadFromActiveResources(key, isMemoryCacheable);
         if (active != null) {
             cb.onResourceReady(active);
@@ -167,7 +158,6 @@ public class Engine implements EngineJobListener,
             }
             return null;
         }
-
         EngineJob current = jobs.get(key);
         if (current != null) {
             current.addCallback(cb);
@@ -176,7 +166,6 @@ public class Engine implements EngineJobListener,
             }
             return new LoadStatus(cb, current);
         }
-
         EngineJob engineJob = engineJobFactory.build(key, isMemoryCacheable);
         DecodeJob<T, Z, R> decodeJob = new DecodeJob<T, Z, R>(key, width, height, fetcher, loadProvider, transformation,
                 transcoder, diskCacheProvider, diskCacheStrategy, priority);
@@ -184,7 +173,6 @@ public class Engine implements EngineJobListener,
         jobs.put(key, engineJob);
         engineJob.addCallback(cb);
         engineJob.start(runnable);
-
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
             logWithTimeAndKey("Started new load", startTime, key);
         }
@@ -199,7 +187,6 @@ public class Engine implements EngineJobListener,
         if (!isMemoryCacheable) {
             return null;
         }
-
         EngineResource<?> active = null;
         WeakReference<EngineResource<?>> activeRef = activeResources.get(key);
         if (activeRef != null) {
@@ -210,7 +197,6 @@ public class Engine implements EngineJobListener,
                 activeResources.remove(key);
             }
         }
-
         return active;
     }
 
@@ -218,7 +204,6 @@ public class Engine implements EngineJobListener,
         if (!isMemoryCacheable) {
             return null;
         }
-
         EngineResource<?> cached = getEngineResourceFromCache(key);
         if (cached != null) {
             cached.acquire();
@@ -230,7 +215,6 @@ public class Engine implements EngineJobListener,
     @SuppressWarnings("unchecked")
     private EngineResource<?> getEngineResourceFromCache(Key key) {
         Resource<?> cached = cache.remove(key);
-
         final EngineResource result;
         if (cached == null) {
             result = null;
@@ -259,7 +243,6 @@ public class Engine implements EngineJobListener,
         // A null resource indicates that the load failed, usually due to an exception.
         if (resource != null) {
             resource.setResourceListener(key, this);
-
             if (resource.isCacheable()) {
                 activeResources.put(key, new ResourceWeakReference(key, resource, getReferenceQueue()));
             }
@@ -308,7 +291,6 @@ public class Engine implements EngineJobListener,
     }
 
     private static class LazyDiskCacheProvider implements DecodeJob.DiskCacheProvider {
-
         private final DiskCache.Factory factory;
         private volatile DiskCache diskCache;
 

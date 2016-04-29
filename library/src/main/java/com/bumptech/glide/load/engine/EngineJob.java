@@ -175,9 +175,7 @@ class EngineJob implements EngineRunnable.EngineRunnableManager {
             throw new IllegalStateException("Received an exception without any callbacks to notify");
         }
         hasException = true;
-
         listener.onEngineJobComplete(key, null);
-
         for (ResourceCallback cb : cbs) {
             if (!isInIgnoredCallbacks(cb)) {
                 cb.onException(exception);
@@ -193,7 +191,6 @@ class EngineJob implements EngineRunnable.EngineRunnableManager {
     }
 
     private static class MainThreadCallback implements Handler.Callback {
-
         @Override
         public boolean handleMessage(Message message) {
             if (MSG_COMPLETE == message.what || MSG_EXCEPTION == message.what) {
@@ -205,7 +202,6 @@ class EngineJob implements EngineRunnable.EngineRunnableManager {
                 }
                 return true;
             }
-
             return false;
         }
     }

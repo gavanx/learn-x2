@@ -38,7 +38,6 @@ public class DrawableTypeRequest<ModelType> extends DrawableRequestBuilder<Model
         if (streamModelLoader == null && fileDescriptorModelLoader == null) {
             return null;
         }
-
         if (transcoder == null) {
             transcoder = glide.buildTranscoder(resourceClass, transcodedClass);
         }

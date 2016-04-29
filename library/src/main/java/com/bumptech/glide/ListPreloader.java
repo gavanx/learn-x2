@@ -23,7 +23,6 @@ import java.util.Queue;
  * @param <T> The type of the model being displayed in the list.
  */
 public class ListPreloader<T> implements AbsListView.OnScrollListener {
-
     private final int maxPreload;
     private final PreloadTargetQueue preloadTargetQueue;
     private final PreloadModelProvider<T> preloadModelProvider;
@@ -120,7 +119,6 @@ public class ListPreloader<T> implements AbsListView.OnScrollListener {
         };
         this.maxPreload = maxPreload;
         preloadTargetQueue = new PreloadTargetQueue(maxPreload + 1);
-
     }
 
     /**
@@ -283,7 +281,6 @@ public class ListPreloader<T> implements AbsListView.OnScrollListener {
 
         public PreloadTargetQueue(int size) {
             queue = Util.createQueue(size);
-
             for (int i = 0; i < size; i++) {
                 queue.offer(new PreloadTarget());
             }

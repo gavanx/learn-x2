@@ -22,7 +22,6 @@ public class FifoPriorityThreadPoolExecutor extends ThreadPoolExecutor {
     private static final String TAG = "PriorityExecutor";
     private final AtomicInteger ordering = new AtomicInteger();
     private final UncaughtThrowableStrategy uncaughtThrowableStrategy;
-
     /**
      * A strategy for handling unexpected and uncaught throwables thrown by futures run on the pool.
      */

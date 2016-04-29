@@ -22,7 +22,6 @@ class CacheLoader {
         if (fromCache == null) {
             return null;
         }
-
         Resource<Z> result = null;
         try {
             result = decoder.decode(fromCache, width, height);

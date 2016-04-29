@@ -58,9 +58,7 @@ class EngineKey implements Key {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         EngineKey engineKey = (EngineKey) o;
-
         if (!id.equals(engineKey.id)) {
             return false;
         } else if (!signature.equals(engineKey.signature)) {

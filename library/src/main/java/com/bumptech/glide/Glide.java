@@ -79,7 +79,6 @@ import java.util.List;
  * BitmapPool}, {@link com.bumptech.glide.load.engine.cache.DiskCache} and {@link MemoryCache}.
  */
 public class Glide {
-
     private static final String TAG = "Glide";
     private static volatile Glide glide;
 
@@ -142,7 +141,6 @@ public class Glide {
                 if (glide == null) {
                     Context applicationContext = context.getApplicationContext();
                     List<GlideModule> modules = new ManifestParser(applicationContext).parse();
-
                     GlideBuilder builder = new GlideBuilder(applicationContext);
                     for (GlideModule module : modules) {
                         module.applyOptions(applicationContext, builder);
@@ -199,26 +197,18 @@ public class Glide {
         loaderFactory = new GenericLoaderFactory(context);
         mainHandler = new Handler(Looper.getMainLooper());
         bitmapPreFiller = new BitmapPreFiller(memoryCache, bitmapPool, decodeFormat);
-
         dataLoadProviderRegistry = new DataLoadProviderRegistry();
-
         StreamBitmapDataLoadProvider streamBitmapLoadProvider = new StreamBitmapDataLoadProvider(bitmapPool, decodeFormat);
         dataLoadProviderRegistry.register(InputStream.class, Bitmap.class, streamBitmapLoadProvider);
-
         FileDescriptorBitmapDataLoadProvider fileDescriptorLoadProvider = new FileDescriptorBitmapDataLoadProvider(bitmapPool, decodeFormat);
         dataLoadProviderRegistry.register(ParcelFileDescriptor.class, Bitmap.class, fileDescriptorLoadProvider);
-
         ImageVideoDataLoadProvider imageVideoDataLoadProvider = new ImageVideoDataLoadProvider(streamBitmapLoadProvider, fileDescriptorLoadProvider);
         dataLoadProviderRegistry.register(ImageVideoWrapper.class, Bitmap.class, imageVideoDataLoadProvider);
-
         GifDrawableLoadProvider gifDrawableLoadProvider = new GifDrawableLoadProvider(context, bitmapPool);
         dataLoadProviderRegistry.register(InputStream.class, GifDrawable.class, gifDrawableLoadProvider);
-
         dataLoadProviderRegistry.register(ImageVideoWrapper.class, GifBitmapWrapper.class, new ImageVideoGifDrawableLoadProvider
             (imageVideoDataLoadProvider, gifDrawableLoadProvider, bitmapPool));
-
         dataLoadProviderRegistry.register(InputStream.class, File.class, new StreamFileDataLoadProvider());
-
         register(File.class, ParcelFileDescriptor.class, new FileDescriptorFileLoader.Factory());
         register(File.class, InputStream.class, new StreamFileLoader.Factory());
         register(int.class, ParcelFileDescriptor.class, new FileDescriptorResourceLoader.Factory());
@@ -232,14 +222,11 @@ public class Glide {
         register(URL.class, InputStream.class, new StreamUrlLoader.Factory());
         register(GlideUrl.class, InputStream.class, new HttpUrlGlideUrlLoader.Factory());
         register(byte[].class, InputStream.class, new StreamByteArrayLoader.Factory());
-
         transcoderRegistry.register(Bitmap.class, GlideBitmapDrawable.class, new GlideBitmapDrawableTranscoder(context.getResources(), bitmapPool));
         transcoderRegistry.register(GifBitmapWrapper.class, GlideDrawable.class, new GifBitmapWrapperDrawableTranscoder(new
             GlideBitmapDrawableTranscoder(context.getResources(), bitmapPool)));
-
         bitmapCenterCrop = new CenterCrop(bitmapPool);
         drawableCenterCrop = new GifBitmapWrapperTransformation(bitmapPool, bitmapCenterCrop);
-
         bitmapFitCenter = new FitCenter(bitmapPool);
         drawableFitCenter = new GifBitmapWrapperTransformation(bitmapPool, bitmapFitCenter);
     }

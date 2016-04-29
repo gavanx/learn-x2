@@ -80,7 +80,6 @@ class DecodeJob<A, T, Z> {
         if (!diskCacheStrategy.cacheResult()) {
             return null;
         }
-
         long startTime = LogTime.getLogTime();
         Resource<T> transformed = loadFromCache(resultKey);
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
@@ -140,9 +139,7 @@ class DecodeJob<A, T, Z> {
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
             logWithTimeAndKey("Transformed resource from source", startTime);
         }
-
         writeTransformedToCache(transformed);
-
         startTime = LogTime.getLogTime();
         Resource<Z> result = transcode(transformed);
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
@@ -216,7 +213,6 @@ class DecodeJob<A, T, Z> {
         if (cacheFile == null) {
             return null;
         }
-
         Resource<T> result = null;
         try {
             result = loadProvider.getCacheDecoder().decode(cacheFile, width, height);
@@ -232,7 +228,6 @@ class DecodeJob<A, T, Z> {
         if (decoded == null) {
             return null;
         }
-
         Resource<T> transformed = transformation.transform(decoded, width, height);
         if (!decoded.equals(transformed)) {
             decoded.recycle();
@@ -252,7 +247,6 @@ class DecodeJob<A, T, Z> {
     }
 
     class SourceWriter<DataType> implements DiskCache.Writer {
-
         private final Encoder<DataType> encoder;
         private final DataType data;
 

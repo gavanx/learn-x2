@@ -12,7 +12,6 @@ import java.security.MessageDigest;
  */
 public interface Key {
     String STRING_CHARSET_NAME = "UTF-8";
-
     /**
      * Adds all uniquely identifying information to the given digest.
      *

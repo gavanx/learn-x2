@@ -20,7 +20,6 @@ class GroupedLinkedMap<K extends Poolable, V> {
 
     public void put(K key, V value) {
         LinkedEntry<K, V> entry = keyToEntry.get(key);
-
         if (entry == null) {
             entry = new LinkedEntry<K, V>(key);
             makeTail(entry);
@@ -28,7 +27,6 @@ class GroupedLinkedMap<K extends Poolable, V> {
         } else {
             key.offer();
         }
-
         entry.add(value);
     }
 
@@ -40,15 +38,12 @@ class GroupedLinkedMap<K extends Poolable, V> {
         } else {
             key.offer();
         }
-
         makeHead(entry);
-
         return entry.removeLast();
     }
 
     public V removeLast() {
         LinkedEntry<K, V> last = head.prev;
-
         while (!last.equals(head)) {
             V removed = last.removeLast();
             if (removed != null) {
@@ -62,10 +57,8 @@ class GroupedLinkedMap<K extends Poolable, V> {
                 keyToEntry.remove(last.key);
                 last.key.offer();
             }
-
             last = last.prev;
         }
-
         return null;
     }
 

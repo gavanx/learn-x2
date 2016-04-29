@@ -15,7 +15,6 @@ class ResourceRecycler {
 
     public void recycle(Resource<?> resource) {
         Util.assertMainThread();
-
         if (isRecycling) {
             // If a resource has sub-resources, releasing a sub resource can cause it's parent to be synchronously
             // evicted which leads to a recycle loop when the parent releases it's children. Posting breaks this loop.

@@ -61,9 +61,7 @@ public class RequestManager implements LifecycleListener {
         this.requestTracker = requestTracker;
         this.glide = Glide.get(context);
         this.optionsApplier = new OptionsApplier();
-
         ConnectivityMonitor connectivityMonitor = factory.build(context, new RequestManagerConnectivityListener(requestTracker));
-
         // If we're the application level request manager, we may be created on a background thread. In that case we
         // cannot risk synchronously pausing or resuming requests, so we hack around the issue by delaying adding
         // ourselves as a lifecycle listener by posting to the main thread. This should be entirely safe.

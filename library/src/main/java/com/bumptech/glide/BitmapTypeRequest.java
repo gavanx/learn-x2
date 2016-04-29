@@ -33,7 +33,6 @@ public class BitmapTypeRequest<ModelType> extends BitmapRequestBuilder<ModelType
         if (streamModelLoader == null && fileDescriptorModelLoader == null) {
             return null;
         }
-
         if (transcoder == null) {
             transcoder = glide.buildTranscoder(Bitmap.class, transcodedClass);
         }

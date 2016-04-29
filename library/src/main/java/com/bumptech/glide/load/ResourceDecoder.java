@@ -11,7 +11,6 @@ import java.io.IOException;
  * @param <Z> The type of the decoded resource (Bitmap, Drawable etc).
  */
 public interface ResourceDecoder<T, Z> {
-
     /**
      * Returns a decoded resource from the given data or null if no resource could be decoded.
      * <p>

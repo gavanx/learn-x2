@@ -25,7 +25,6 @@ public class GifTypeRequest<ModelType> extends GifRequestBuilder<ModelType> {
         if (streamModelLoader == null) {
             return null;
         }
-
         if (transcoder == null) {
             transcoder = glide.buildTranscoder(GifDrawable.class, transcodeClass);
         }
@@ -38,7 +37,6 @@ public class GifTypeRequest<ModelType> extends GifRequestBuilder<ModelType> {
         super(buildProvider(other.glide, streamModelLoader, GifDrawable.class, null), GifDrawable.class, other);
         this.streamModelLoader = streamModelLoader;
         this.optionsApplier = optionsApplier;
-
         // Default to animating.
         crossFade();
     }

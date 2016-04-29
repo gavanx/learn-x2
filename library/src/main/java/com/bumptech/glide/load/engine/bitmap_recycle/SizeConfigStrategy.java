@@ -51,9 +51,7 @@ public class SizeConfigStrategy implements LruPoolStrategy {
     public void put(Bitmap bitmap) {
         int size = Util.getBitmapByteSize(bitmap);
         Key key = keyPool.get(size, bitmap.getConfig());
-
         groupedMap.put(key, bitmap);
-
         NavigableMap<Integer, Integer> sizes = getSizesForConfig(bitmap.getConfig());
         Integer current = sizes.get(key.size);
         sizes.put(key.size, current == null ? 1 : current + 1);

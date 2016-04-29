@@ -13,14 +13,12 @@ class AttributeStrategy implements LruPoolStrategy {
 
     public void put(Bitmap bitmap) {
         final Key key = keyPool.get(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-
         groupedMap.put(key, bitmap);
     }
 
     @Override
     public Bitmap get(int width, int height, Bitmap.Config config) {
         final Key key = keyPool.get(width, height, config);
-
         return groupedMap.get(key);
     }
 

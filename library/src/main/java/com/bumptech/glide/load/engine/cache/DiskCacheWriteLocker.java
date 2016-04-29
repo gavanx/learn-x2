@@ -31,7 +31,6 @@ final class DiskCacheWriteLocker {
             }
             writeLock.interestedThreads++;
         }
-
         writeLock.lock.lock();
     }
 
@@ -44,7 +43,6 @@ final class DiskCacheWriteLocker {
                     "Cannot release a lock that is not held" + ", key: " + key + ", interestedThreads: "
                         + (writeLock == null ? 0 : writeLock.interestedThreads));
             }
-
             if (--writeLock.interestedThreads == 0) {
                 WriteLock removed = locks.remove(key);
                 if (!removed.equals(writeLock)) {
@@ -56,7 +54,6 @@ final class DiskCacheWriteLocker {
                 writeLockPool.offer(removed);
             }
         }
-
         writeLock.lock.unlock();
     }
 

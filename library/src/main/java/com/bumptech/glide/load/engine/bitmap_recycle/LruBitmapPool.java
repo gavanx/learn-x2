@@ -88,19 +88,15 @@ public class LruBitmapPool implements BitmapPool {
             }
             return false;
         }
-
         final int size = strategy.getSize(bitmap);
         strategy.put(bitmap);
         tracker.add(bitmap);
-
         puts++;
         currentSize += size;
-
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
             Log.v(TAG, "Put bitmap in pool=" + strategy.logBitmap(bitmap));
         }
         dump();
-
         evict();
         return true;
     }
@@ -118,7 +114,6 @@ public class LruBitmapPool implements BitmapPool {
             // here. See issue #131.
             result.eraseColor(Color.TRANSPARENT);
         }
-
         return result;
     }
 
@@ -145,7 +140,6 @@ public class LruBitmapPool implements BitmapPool {
             Log.v(TAG, "Get bitmap=" + strategy.logBitmap(width, height, config));
         }
         dump();
-
         return result;
     }
 
@@ -182,7 +176,6 @@ public class LruBitmapPool implements BitmapPool {
                 currentSize = 0;
                 return;
             }
-
             tracker.remove(removed);
             currentSize -= strategy.getSize(removed);
             removed.recycle();

@@ -54,15 +54,12 @@ public class DiskLruCacheFactory implements DiskCache.Factory {
     @Override
     public DiskCache build() {
         File cacheDir = cacheDirectoryGetter.getCacheDirectory();
-
         if (cacheDir == null) {
             return null;
         }
-
         if (!cacheDir.mkdirs() && (!cacheDir.exists() || !cacheDir.isDirectory())) {
             return null;
         }
-
         return DiskLruCacheWrapper.get(cacheDir, diskCacheSize);
     }
 }

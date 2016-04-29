@@ -1,11 +1,11 @@
 package com.bumptech.glide.load.data;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.util.ContentLengthInputStream;
+
+import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,8 +44,7 @@ public class HttpUrlFetcher implements DataFetcher<InputStream> {
         return loadDataWithRedirects(glideUrl.toURL(), 0 /*redirects*/, null /*lastUrl*/, glideUrl.getHeaders());
     }
 
-    private InputStream loadDataWithRedirects(URL url, int redirects, URL lastUrl, Map<String, String> headers)
-            throws IOException {
+    private InputStream loadDataWithRedirects(URL url, int redirects, URL lastUrl, Map<String, String> headers) throws IOException {
         if (redirects >= MAXIMUM_REDIRECTS) {
             throw new IOException("Too many (> " + MAXIMUM_REDIRECTS + ") redirects!");
         } else {
@@ -61,13 +60,12 @@ public class HttpUrlFetcher implements DataFetcher<InputStream> {
         }
         urlConnection = connectionFactory.build(url);
         for (Map.Entry<String, String> headerEntry : headers.entrySet()) {
-          urlConnection.addRequestProperty(headerEntry.getKey(), headerEntry.getValue());
+            urlConnection.addRequestProperty(headerEntry.getKey(), headerEntry.getValue());
         }
         urlConnection.setConnectTimeout(2500);
         urlConnection.setReadTimeout(2500);
         urlConnection.setUseCaches(false);
         urlConnection.setDoInput(true);
-
         // Connect explicitly to avoid errors in decoders if connection fails.
         urlConnection.connect();
         if (isCancelled) {
@@ -91,8 +89,7 @@ public class HttpUrlFetcher implements DataFetcher<InputStream> {
         }
     }
 
-    private InputStream getStreamForSuccessfulRequest(HttpURLConnection urlConnection)
-            throws IOException {
+    private InputStream getStreamForSuccessfulRequest(HttpURLConnection urlConnection) throws IOException {
         if (TextUtils.isEmpty(urlConnection.getContentEncoding())) {
             int contentLength = urlConnection.getContentLength();
             stream = ContentLengthInputStream.obtain(urlConnection.getInputStream(), contentLength);

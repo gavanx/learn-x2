@@ -23,9 +23,7 @@ class SizeStrategy implements LruPoolStrategy {
     public void put(Bitmap bitmap) {
         int size = Util.getBitmapByteSize(bitmap);
         final Key key = keyPool.get(size);
-
         groupedMap.put(key, bitmap);
-
         Integer current = sortedSizes.get(key.size);
         sortedSizes.put(key.size, current == null ? 1 : current + 1);
     }
@@ -34,20 +32,17 @@ class SizeStrategy implements LruPoolStrategy {
     public Bitmap get(int width, int height, Bitmap.Config config) {
         final int size = Util.getBitmapByteSize(width, height, config);
         Key key = keyPool.get(size);
-
         Integer possibleSize = sortedSizes.ceilingKey(size);
         if (possibleSize != null && possibleSize != size && possibleSize <= size * MAX_SIZE_MULTIPLE) {
             keyPool.offer(key);
             key = keyPool.get(possibleSize);
         }
-
         // Do a get even if we know we don't have a bitmap so that the key moves to the front in the lru pool
         final Bitmap result = groupedMap.get(key);
         if (result != null) {
             result.reconfigure(width, height, config);
             decrementBitmapOfSize(possibleSize);
         }
-
         return result;
     }
 
@@ -104,7 +99,6 @@ class SizeStrategy implements LruPoolStrategy {
 
     // Visible for testing.
     static class KeyPool extends BaseKeyPool<Key> {
-
         public Key get(int size) {
             Key result = get();
             result.init(size);

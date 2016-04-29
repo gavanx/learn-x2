@@ -32,7 +32,6 @@ public class MultiTransformation<T> implements Transformation<T> {
     @Override
     public Resource<T> transform(Resource<T> resource, int outWidth, int outHeight) {
         Resource<T> previous = resource;
-
         for (Transformation<T> transformation : transformations) {
             Resource<T> transformed = transformation.transform(previous, outWidth, outHeight);
             if (previous != null && !previous.equals(resource) && !previous.equals(transformed)) {

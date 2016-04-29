@@ -55,15 +55,12 @@ public class MediaStoreThumbFetcher implements DataFetcher<InputStream> {
     @Override
     public InputStream loadData(Priority priority) throws Exception {
         ThumbnailStreamOpener fetcher = factory.build(mediaStoreUri, width, height);
-
         if (fetcher != null) {
             inputStream = openThumbInputStream(fetcher);
         }
-
         if (inputStream == null) {
             inputStream = defaultFetcher.loadData(priority);
         }
-
         return inputStream;
     }
 
@@ -76,12 +73,10 @@ public class MediaStoreThumbFetcher implements DataFetcher<InputStream> {
                 Log.d(TAG, "Failed to find thumbnail file", e);
             }
         }
-
         int orientation = -1;
         if (result != null) {
             orientation = fetcher.getOrientation(context, mediaStoreUri);
         }
-
         if (orientation != -1) {
             result = new ExifOrientationStream(result, orientation);
         }
@@ -247,7 +242,6 @@ public class MediaStoreThumbFetcher implements DataFetcher<InputStream> {
     }
 
     static class ThumbnailStreamOpenerFactory {
-
         public ThumbnailStreamOpener build(Uri uri, int width, int height) {
             if (!isMediaStoreUri(uri) || width > MINI_WIDTH || height > MINI_HEIGHT) {
                 return null;
